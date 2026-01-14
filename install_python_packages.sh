@@ -4,7 +4,7 @@ set -euo pipefail
 BASE_DIR="$HOME/Dropbox/repo"
 
 # Optional flags
-DRY_RUN="${DRY_RUN:-0}"            # DRY_RUN=1 فقط گزارش می‌دهد و نصب نمی‌کند
+DRY_RUN="${DRY_RUN:-0}"
 FORCE_REINSTALL="${FORCE_REINSTALL:-0}"  # FORCE_REINSTALL=1 => pip install -e . --force-reinstall
 
 echo "Scanning $BASE_DIR ..."
