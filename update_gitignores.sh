@@ -1,3 +1,4 @@
+for f in ~/Dropbox/repo/*/.gitignore; do cat << 'EOF' > "$f"
 # Environment files
 **/.env
 **/.env.*
@@ -38,3 +39,5 @@ src/*.egg-info/
 /dist/
 /configs/
 /config/
+EOF
+done
