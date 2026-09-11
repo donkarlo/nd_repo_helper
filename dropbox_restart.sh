@@ -1,4 +1,3 @@
-cat > ~/Dropbox/repo/nd_repo_helper/dropbox_restart.sh <<'EOF'
 #!/usr/bin/env bash
 
 STATUS="$(dropbox status 2>&1)"
@@ -21,6 +20,3 @@ fi
 echo
 echo "Dropbox status:"
 dropbox status
-EOF
-
-chmod +x ~/Dropbox/repo/nd_repo_helper/dropbox_restart.sh
