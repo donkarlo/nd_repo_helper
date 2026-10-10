@@ -196,14 +196,21 @@ class AddCommitWindow(QMainWindow):
         if final_exit_code == 0 and self._saw_failure:
             final_exit_code = 1
 
-        if final_exit_code == 0:
-            self._status_label.setText("Finished")
-        else:
-            self._status_label.setText(f"Failed — exit code {final_exit_code}")
-
+        self._completed_exit_code = final_exit_code
         self._set_prompt_mode("")
-        self._stop_button.setEnabled(False)
-        QTimer.singleShot(1200, lambda: QApplication.exit(final_exit_code))
+        if final_exit_code == 0:
+            self._status_label.setText("Finished — all repositories synchronized")
+            self._stop_button.setEnabled(False)
+            QTimer.singleShot(3000, lambda: QApplication.exit(0))
+        else:
+            self._status_label.setText(
+                f"Failed — exit code {final_exit_code}. Review the errors above."
+            )
+            self._prompt_label.setText(
+                "The window will stay open so you can inspect and copy the error."
+            )
+            self._stop_button.setText("Close")
+            self._stop_button.setEnabled(True)
 
     def _process_error(self, _error: QProcess.ProcessError) -> None:
         message = self._process.errorString()
@@ -214,6 +221,7 @@ class AddCommitWindow(QMainWindow):
 
     def _stop_process(self) -> None:
         if self._process.state() == QProcess.ProcessState.NotRunning:
+            QApplication.exit(getattr(self, "_completed_exit_code", 0))
             return
         self._process.terminate()
         if not self._process.waitForFinished(1500):

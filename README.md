@@ -54,13 +54,17 @@ Output will include which packages were installed or skipped.
 
 ### 2. Commit & Push Changes in All Git Repositories
 
-This script loops over all Git repositories in `~/repos`, stages all changes, shows them, and lets you choose to commit & push to the `main` branch.
+The classic helper scans Git repositories in `~/Dropbox/repo`, stages pending changes, and asks before committing. It then fetches each repository's `mghub/main` and performs a **normal, non-forced push** whenever local commits are waiting, even when no new file changes exist.
 
 ```bash
-./add_commit_push.sh
+bash /home/donkarlo/Dropbox/repo/nd_repo_helper/add_commit_push.sh
 ```
 
-> 💡 You will be prompted for commit messages and confirmation before pushing.
+The interactive terminal and Qt GUI both use `add_commit_push_core.sh` and its **single** repository pass. An already-updated branch is skipped without asking for a new commit. Remote-only commits are fast-forwarded when safe; divergent branches or unfinished merges are reported as errors without rewriting either history. Fetch or push failures leave all local commits intact and produce a nonzero final exit status. The GUI stays open on failure, displays the errors, and provides a Close button; it never silently reports a successful synchronization when any repository failed.
+
+To test without touching actual repositories, set `ND_REPO_ROOT` to a separate directory containing disposable test Git repositories. `ND_REPO_REMOTE` (default `mghub`) and `ND_REPO_BRANCH` (default `main`) are optional overrides. Integration checks are in `tests/test_add_commit_push_core.py` and `tests/test_add_commit_push_gui.py`.
+
+> Confirmation is requested only when new changes must be committed. Previously committed changes are eligible for safe synchronization automatically.
 
 ---
 

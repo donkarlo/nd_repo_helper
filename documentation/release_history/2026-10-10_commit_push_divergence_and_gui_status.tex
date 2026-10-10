@@ -1,0 +1,73 @@
+\documentclass[a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{minted}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{todonotes}
+\usepackage{forest}
+\usepackage{xstring}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{xparse}
+\usepackage{natbib}
+\usepackage{adjustbox}
+\usepackage[active,tightpage]{preview}
+
+\PreviewBorder=4pt
+
+\usetikzlibrary{graphs,graphdrawing,arrows.meta,positioning,calc,fit,shapes.geometric}
+\usegdlibrary{layered}
+
+% for external graphviz
+\input{/nd_language_ai_project/src/nd_language_ai/formal/computer/programming/tex/latex/code_clips/external_graphviz.tex}
+
+% for tags
+\input{/nd_language_ai_project/src/nd_language_ai/formal/computer/programming/tex/latex/part/control_sequence/kind/semtag/semtag.tex}
+
+% for links
+\input{/nd_language_ai_project/src/nd_language_ai/formal/computer/programming/tex/latex/code_clips/seehere.tex}
+
+% for nested lists and sections
+\input{/nd_language_ai_project/src/nd_language_ai/formal/computer/programming/tex/latex/code_clips/deep_structure.tex}
+
+\title{}
+\date{}
+\author{Mohammad Rahmani}
+
+\begin{document}
+   \maketitle
+
+   \begin{preview}
+\section*{Git Synchronization and Failure Visibility --- 2026-10-10}
+\textbf{Issue:} The classic nightly Git helper committed changes but only
+pushed repositories containing newly staged files; it never fetched
+GitHub changes. A remote branch changed independently on August 22,
+2026, causing 42 local commits to accumulate and the October 10 push
+to fail due to divergent history. The helper also contained an appended,
+second independent commit loop. Its Qt window closed automatically
+after failure, hiding critical diagnostics from the user.
+
+\textbf{Corrections:} The script now has one clear commit/fetch/compare/push
+workflow. It attempts pending commits even if the working tree is clean,
+fast-forwards safely for remote-only changes, and refuses to overwrite
+independent local or remote commits. Unfinished merges and failures
+are visibly reported with a nonzero exit status; no force push or
+reset is performed. The GUI stays open after failure and supports
+viewing and copying the error. The CLI and GUI prompt flow is shared.
+
+\textbf{Validation:} Isolated bare Git repositories were used to test
+ordinary commits, earlier unpushed commits, remote-only fast-forwards,
+remote divergence, remote availability failures, clean synchronizations,
+and initial publication of a new remote branch. Qt tests also checked
+that the failure window remains visible and that confirmation and
+commit message prompts work from the GUI.
+
+   \end{preview}
+
+   \bibliographystyle{plainnat}
+   \bibliography{/home/donkarlo/Dropbox/repo/nd_shared_research/bibliography/bibliography.bib}
+\end{document}
